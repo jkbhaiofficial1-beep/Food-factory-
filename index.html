@@ -1,0 +1,759 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Factory - Digital Menu</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#F5C400',
+              accent: '#E6A800',
+              dark: '#141414',
+              card: '#1F1E1E',
+              border: '#3D382B'
+            }
+          },
+          fontFamily: {
+            marker: ['"Permanent Marker"', 'cursive'],
+            bungee: ['"Bungee"', 'sans-serif'],
+            outfit: ['"Outfit"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Chalkboard & Texture Elements */
+    body {
+      background-color: #0e0e0e;
+      background-image: 
+        radial-gradient(rgba(245, 196, 0, 0.04) 1px, transparent 0),
+        linear-gradient(to bottom, #161514, #0b0a0a);
+      background-size: 24px 24px, 100% 100%;
+      min-height: 100vh;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chalk-border {
+      border: 2px dashed #f5c400;
+      box-shadow: 0 0 15px rgba(245, 196, 0, 0.15);
+    }
+
+    .food-card-img {
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .group:hover .food-card-img {
+      transform: scale(1.06);
+    }
+
+    .yellow-brush-badge {
+      background: linear-gradient(135deg, #f5c400, #e0ad00);
+      color: #111;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      clip-path: polygon(0% 0%, 97% 3%, 100% 100%, 3% 97%);
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #181818;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f5c400;
+      border-radius: 4px;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="antialiased pb-28">
+
+  <!-- TOP BRAND HEADER -->
+  <header class="relative border-b border-brand-border bg-gradient-to-b from-stone-900 via-neutral-950 to-neutral-950 pt-5 pb-6 px-4">
+    <div class="max-w-4xl mx-auto text-center relative">
+      
+      <!-- Top Decorative Ribbons -->
+      <div class="flex items-center justify-between text-brand-yellow/80 text-xs sm:text-sm font-semibold tracking-wider mb-2">
+        <span class="flex items-center gap-1.5"><i class="fa-solid fa-utensils"></i> Good Food</span>
+        <span class="flex items-center gap-1.5">Good Mood <i class="fa-regular fa-face-smile text-base"></i></span>
+      </div>
+
+      <!-- Chef Hat Logo Icon -->
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand-yellow/10 border-2 border-brand-yellow text-brand-yellow text-2xl shadow-lg shadow-brand-yellow/10 mb-2">
+        <i class="fa-solid fa-hat-chef text-3xl"></i>
+      </div>
+
+      <!-- Main Restaurant Title -->
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black font-bungee tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-brand-yellow to-amber-500 drop-shadow-[0_2px_10px_rgba(245,196,0,0.3)]">
+        FOOD FACTORY
+      </h1>
+
+      <p class="text-zinc-400 text-xs sm:text-sm tracking-widest uppercase font-medium mt-1">
+        Fresh &bull; Tasty &bull; Always
+      </p>
+
+      <!-- Quick Action Badges -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm">
+        <a href="tel:8005570014" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-yellow text-black font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all">
+          <i class="fa-solid fa-phone-volume"></i>
+          <span>8005570014</span>
+        </a>
+
+        <a href="https://wa.me/918005570014" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md hover:scale-105 transition-all">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Order on WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- 15-Minute Notice Banner -->
+      <div class="mt-4 inline-block bg-yellow-950/40 border border-yellow-600/50 rounded-xl px-4 py-1.5 text-yellow-300 text-xs sm:text-sm font-semibold shadow-inner">
+        <i class="fa-regular fa-clock mr-1 text-brand-yellow animate-pulse"></i>
+        Please wait 15 Minutes after order
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH & CATEGORY FILTER BAR (STICKY) -->
+  <nav class="sticky top-0 z-30 bg-neutral-950/95 backdrop-blur-md border-b border-neutral-800 py-3 shadow-xl">
+    <div class="max-w-4xl mx-auto px-4 space-y-3">
+      
+      <!-- Search Box -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-zinc-400">
+          <i class="fa-solid fa-magnifying-glass text-brand-yellow"></i>
+        </span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search items (e.g. Masala Fries, Singapuri, Cold Coffee)..." 
+          class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-neutral-900 border border-neutral-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition"
+        >
+        <button id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div id="categoryTabs" class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN MENU CONTAINER -->
+  <main class="max-w-4xl mx-auto px-4 mt-6">
+    <div id="menuGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <!-- Category Cards Rendered by JS -->
+    </div>
+
+    <!-- Empty search result state -->
+    <div id="noResults" class="hidden py-16 text-center text-neutral-400">
+      <i class="fa-solid fa-burger text-5xl text-brand-yellow/40 mb-3 block"></i>
+      <p class="text-lg font-semibold text-zinc-200">No delicious items found!</p>
+      <p class="text-sm">Try searching for something else like "Pizza", "Coffee", or "Burger".</p>
+    </div>
+
+    <!-- Celebration Cake Order Highlight Box -->
+    <section class="mt-8 rounded-2xl bg-gradient-to-r from-amber-950/60 via-neutral-900 to-amber-950/60 border border-brand-yellow/40 p-5 text-center shadow-lg">
+      <div class="inline-flex items-center justify-center p-3 rounded-full bg-brand-yellow/20 text-brand-yellow text-2xl mb-2">
+        <i class="fa-solid fa-cake-candles"></i>
+      </div>
+      <h3 class="text-xl font-bold font-outfit text-brand-yellow tracking-wide">
+        Birthday & Celebration Orders
+      </h3>
+      <p class="text-sm text-zinc-300 mt-1 max-w-lg mx-auto">
+        Cakes & Pastries are prepared fresh upon advance request. Call or message us to customize your sweet treats!
+      </p>
+      <a href="tel:8005570014" class="mt-3 inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-yellow hover:bg-yellow-400 text-black font-extrabold text-sm transition">
+        <i class="fa-solid fa-phone"></i> Call 8005570014
+      </a>
+    </section>
+  </main>
+
+  <!-- FLOATING CART BAR (Shown when items > 0) -->
+  <div id="cartBar" class="fixed bottom-3 inset-x-0 mx-auto max-w-lg px-4 z-40 transform translate-y-32 transition-transform duration-300 ease-out">
+    <div class="bg-gradient-to-r from-amber-500 to-brand-yellow text-black rounded-2xl p-3.5 shadow-2xl flex items-center justify-between border-2 border-yellow-200 cursor-pointer" onclick="toggleCartModal(true)">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-black text-brand-yellow flex items-center justify-center font-black relative">
+          <i class="fa-solid fa-basket-shopping text-lg"></i>
+          <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-yellow-400">0</span>
+        </div>
+        <div>
+          <p class="text-xs uppercase font-extrabold tracking-wider text-neutral-900">Your Tray</p>
+          <p class="text-lg font-black leading-none">₹<span id="cartTotalPrice">0</span></p>
+        </div>
+      </div>
+      <button class="bg-black hover:bg-neutral-900 text-brand-yellow font-extrabold text-sm px-4 py-2 rounded-xl flex items-center gap-2 shadow">
+        <span>View Order</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- CART & CHECKOUT MODAL -->
+  <div id="cartModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-neutral-900 border border-neutral-800 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-950">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-brand-yellow/20 text-brand-yellow flex items-center justify-center font-bold">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-base">Your Food Tray</h3>
+            <p class="text-xs text-zinc-400">Review selected delicious items</p>
+          </div>
+        </div>
+        <button onclick="toggleCartModal(false)" class="text-zinc-400 hover:text-white p-2 rounded-lg text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Cart Item List -->
+      <div id="cartItemList" class="p-4 overflow-y-auto space-y-3 flex-1">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Modal Footer / Checkout -->
+      <div class="p-4 border-t border-neutral-800 bg-neutral-950 space-y-3">
+        <!-- Total -->
+        <div class="flex justify-between items-center text-sm font-semibold px-1">
+          <span class="text-zinc-400">Total Payable Amount</span>
+          <span class="text-2xl font-black text-brand-yellow">₹<span id="modalTotal">0</span></span>
+        </div>
+
+        <div class="text-xs text-amber-300/80 bg-amber-950/40 p-2.5 rounded-xl border border-amber-800/40 flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-brand-yellow"></i>
+          <span>Estimated prep time is 15 minutes after ordering.</span>
+        </div>
+
+        <!-- Order Options -->
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <button onclick="sendOrderViaWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition active:scale-95 shadow-md">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>Send to Kitchen</span>
+          </button>
+          <button onclick="clearTray()" class="w-full py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-zinc-300 font-semibold text-sm transition">
+            <i class="fa-solid fa-trash-can mr-1.5"></i> Clear Tray
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed top-5 right-5 z-50 bg-brand-yellow text-black font-bold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-sm transform translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="fa-solid fa-circle-check text-base"></i>
+    <span id="toastMsg">Added to tray</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Menu Data directly synchronized with the Food Factory Menu board with high quality food imagery
+    const menuData = [
+      {
+        id: "fries",
+        categoryName: "Fries",
+        icon: "fa-solid fa-french-fries",
+        illustration: "🍟",
+        image: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "f1", name: "Fries", price: 60, desc: "Crispy golden salted potato fries" },
+          { id: "f2", name: "Masala Fries", price: 80, desc: "Tossed with signature spicy peri-peri masala" }
+        ]
+      },
+      {
+        id: "patties",
+        categoryName: "Patties",
+        icon: "fa-solid fa-bread-slice",
+        illustration: "🥟",
+        image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "pat1", name: "Allu Patties", price: 20, desc: "Flaky puff pastry stuffed with spiced potato filling" },
+          { id: "pat2", name: "Grill Patties", price: 30, desc: "Crisped & toasted on the grill with special herbs" }
+        ]
+      },
+      {
+        id: "pav_bhaji",
+        categoryName: "Pav Bhaji",
+        icon: "fa-solid fa-plate-wheat",
+        illustration: "🍲",
+        image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "pb1", name: "Pav Bhaji", price: 50, desc: "Authentic buttery spiced mash with 2 hot buttered pavs" },
+          { id: "pb2", name: "Extra Paav", price: 10, desc: "Fresh fluffy pav grilled in generous butter" },
+          { id: "pb3", name: "Extra Bhaji", price: 20, desc: "Extra serving of hot, seasoned vegetable mash" }
+        ]
+      },
+      {
+        id: "chinese",
+        categoryName: "Chinese",
+        icon: "fa-solid fa-bowl-rice",
+        illustration: "🍜",
+        image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "ch1", name: "Veg Chowmeen", price: 60, desc: "Wok-tossed noodles with garden fresh vegetables" },
+          { id: "ch2", name: "Singapuri Chowmee", price: 80, desc: "Tangy & spicy Singaporean-style street noodles" },
+          { id: "ch3", name: "Special Chowmeen", price: 100, desc: "Chef's signature loaded noodles with paneer & veggies" }
+        ]
+      },
+      {
+        id: "wrap",
+        categoryName: "Wrap",
+        icon: "fa-solid fa-scroll",
+        illustration: "🌯",
+        image: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "wr1", name: "Wrap Veg", price: 50, desc: "Crispy vegetable roll packed with signature spices" },
+          { id: "wr2", name: "Wrap Cream", price: 60, desc: "Loaded with rich cream and mild flavorful toppings" },
+          { id: "wr3", name: "Wrap Paneer N Onion", price: 70, desc: "Tender paneer cubes, crunchy red onions & spicy mayo" }
+        ]
+      },
+      {
+        id: "pizza",
+        categoryName: "Pizza",
+        icon: "fa-solid fa-pizza-slice",
+        illustration: "🍕",
+        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "pz1", name: "Peeza Corn", price: 120, desc: "Golden sweet corn kernels smothered in melted mozzarella" },
+          { id: "pz2", name: "Peeza Onion and Cheese", price: 150, desc: "Classic diced onions baked with gooey cheese sauce" },
+          { id: "pz3", name: "Peeza Capsicum and Cheese", price: 200, desc: "Fresh bell peppers, fragrant oregano, and double cheese" }
+        ]
+      },
+      {
+        id: "coffee",
+        categoryName: "Coffee",
+        icon: "fa-solid fa-mug-saucer",
+        illustration: "🥤",
+        image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "cf1", name: "Cold Coffee", price: 50, desc: "Frothy chilled coffee blend with thick creamy milk" },
+          { id: "cf2", name: "Oreo Cold Coffee", price: 70, desc: "Whipped coffee infused with crunchy crushed Oreo cookies" },
+          { id: "cf3", name: "Kitkat Cold Coffee", price: 70, desc: "Decadent cold coffee layered with real KitKat chocolate" }
+        ]
+      },
+      {
+        id: "burger",
+        categoryName: "Burger",
+        icon: "fa-solid fa-burger",
+        illustration: "🍔",
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "bg1", name: "Veg Burger", price: 40, desc: "Crispy vegetable cutlet, fresh lettuce & house burger sauce" },
+          { id: "bg2", name: "Cheese Burger", price: 70, desc: "Veg patty draped with melted cheddar cheese slice" },
+          { id: "bg3", name: "Paneer Burger", price: 50, desc: "Marinated crispy paneer patty with spicy herb dressing" }
+        ]
+      },
+      {
+        id: "sandwich",
+        categoryName: "Sandwich",
+        icon: "fa-solid fa-bread-slice",
+        illustration: "🥪",
+        image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "sw1", name: "Cold Sandwich", price: 30, desc: "Chilled fresh vegetable slaw spread on soft bread" },
+          { id: "sw2", name: "Veg Sandwich", price: 60, desc: "Layered tomato, cucumber, potato and mint chutney" },
+          { id: "sw3", name: "Brown Bread Sandwich", price: 40, desc: "Wholesome toasted brown bread with fresh veg slice" },
+          { id: "sw4", name: "Extra Cheese", price: 70, desc: "Loaded with melted cheddar & mozzarella layers" },
+          { id: "sw5", name: "Extra Paneer Loaded", price: 80, desc: "Packed with freshly spiced, grilled paneer slabs" }
+        ]
+      },
+      {
+        id: "cakes_pastries",
+        categoryName: "Cakes & Pastries",
+        icon: "fa-solid fa-cake-candles",
+        illustration: "🎂",
+        image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=700&auto=format&fit=crop&q=80",
+        items: [
+          { id: "ck1", name: "Pastry (Order based)", price: 40, desc: "Fresh daily assortment; flavors on request", isOrderOnly: true },
+          { id: "ck2", name: "Celebration Cake", price: 350, desc: "Customized 500g/1kg birthday and celebration cakes", isOrderOnly: true }
+        ]
+      }
+    ];
+
+    // State
+    let cart = {}; // { itemId: quantity }
+    let activeCategory = "all";
+    let searchTerm = "";
+
+    // DOM Elements
+    const categoryTabsContainer = document.getElementById("categoryTabs");
+    const menuGrid = document.getElementById("menuGrid");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const noResults = document.getElementById("noResults");
+    const cartBar = document.getElementById("cartBar");
+    const cartCountBadge = document.getElementById("cartCountBadge");
+    const cartTotalPrice = document.getElementById("cartTotalPrice");
+    const cartModal = document.getElementById("cartModal");
+    const cartItemList = document.getElementById("cartItemList");
+    const modalTotal = document.getElementById("modalTotal");
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toastMsg");
+
+    // Initialize
+    function init() {
+      renderCategoryTabs();
+      renderMenu();
+      attachEvents();
+    }
+
+    // Render Category Horizontal Filter Tabs
+    function renderCategoryTabs() {
+      const categories = [{ id: "all", name: "All Items", icon: "fa-solid fa-utensils" }, ...menuData.map(c => ({ id: c.id, name: c.categoryName, icon: c.icon }))];
+      
+      categoryTabsContainer.innerHTML = categories.map(cat => {
+        const isActive = activeCategory === cat.id;
+        return `
+          <button 
+            onclick="setCategory('${cat.id}')"
+            class="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
+              isActive 
+                ? 'bg-brand-yellow text-black shadow-md shadow-brand-yellow/20 scale-105' 
+                : 'bg-neutral-900 hover:bg-neutral-800 text-zinc-300 border border-neutral-700'
+            }">
+            <span>${cat.name}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Set Category Filter
+    function setCategory(catId) {
+      activeCategory = catId;
+      renderCategoryTabs();
+      renderMenu();
+    }
+
+    // Render Menu Cards
+    function renderMenu() {
+      let filteredCategories = menuData;
+
+      if (activeCategory !== 'all') {
+        filteredCategories = menuData.filter(c => c.id === activeCategory);
+      }
+
+      // Filter by search
+      let totalItemsMatched = 0;
+      const html = filteredCategories.map(cat => {
+        const matchingItems = cat.items.filter(item => {
+          const matchName = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+          const matchDesc = item.desc.toLowerCase().includes(searchTerm.toLowerCase());
+          return matchName || matchDesc;
+        });
+
+        if (matchingItems.length === 0) return '';
+        totalItemsMatched += matchingItems.length;
+
+        return `
+          <div class="group bg-neutral-900/90 border border-neutral-800 hover:border-yellow-500/50 transition-all rounded-3xl p-4 shadow-xl flex flex-col justify-between overflow-hidden">
+            <div>
+              <!-- Realistic Category Image Header -->
+              <div class="relative w-full h-40 sm:h-44 rounded-2xl overflow-hidden mb-3.5 bg-neutral-950 border border-neutral-800/80">
+                <img 
+                  src="${cat.image}" 
+                  alt="${cat.categoryName}" 
+                  loading="lazy"
+                  class="food-card-img w-full h-full object-cover brightness-95 contrast-105"
+                  onerror="this.onerror=null; this.src='https://placehold.co/600x400/222/f5c400?text=${encodeURIComponent(cat.categoryName)}';"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent"></div>
+                
+                <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="text-2xl drop-shadow-md">${cat.illustration}</span>
+                    <h2 class="font-outfit font-black tracking-wide text-xl text-brand-yellow uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      ${cat.categoryName}
+                    </h2>
+                  </div>
+                  <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-amber-300 font-semibold border border-yellow-500/30">
+                    ${matchingItems.length} options
+                  </span>
+                </div>
+              </div>
+
+              <!-- Items in this Category -->
+              <div class="space-y-3">
+                ${matchingItems.map(item => {
+                  const qty = cart[item.id] || 0;
+                  return `
+                    <div class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-neutral-950/40 hover:bg-neutral-800/50 border border-neutral-800/60 hover:border-neutral-700 transition">
+                      <div class="flex-1 pr-2">
+                        <div class="flex items-center gap-2">
+                          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50 inline-block"></span>
+                          <span class="font-bold text-white text-sm sm:text-base">${item.name}</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-0.5 line-clamp-1">${item.desc}</p>
+                        <span class="font-extrabold text-brand-yellow text-sm mt-1 inline-block">₹${item.price}</span>
+                      </div>
+
+                      <!-- Counter / Add button -->
+                      <div class="flex items-center">
+                        ${qty === 0 ? `
+                          <button 
+                            onclick="updateQuantity('${item.id}', 1)"
+                            class="px-3.5 py-1.5 rounded-lg bg-neutral-800 hover:bg-brand-yellow hover:text-black border border-brand-yellow/40 text-brand-yellow font-bold text-xs uppercase tracking-wider transition active:scale-95 flex items-center gap-1.5 shadow"
+                          >
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                            <span>Add</span>
+                          </button>
+                        ` : `
+                          <div class="flex items-center bg-brand-yellow text-black rounded-lg font-bold text-sm shadow-md">
+                            <button 
+                              onclick="updateQuantity('${item.id}', -1)" 
+                              class="w-7 h-7 flex items-center justify-center hover:bg-yellow-400 rounded-l-lg transition active:scale-90"
+                              title="Decrease"
+                            >
+                              <i class="fa-solid fa-minus text-xs"></i>
+                            </button>
+                            <span class="w-6 text-center font-black">${qty}</span>
+                            <button 
+                              onclick="updateQuantity('${item.id}', 1)" 
+                              class="w-7 h-7 flex items-center justify-center hover:bg-yellow-400 rounded-r-lg transition active:scale-90"
+                              title="Increase"
+                            >
+                              <i class="fa-solid fa-plus text-xs"></i>
+                            </button>
+                          </div>
+                        `}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            ${cat.id === 'cakes_pastries' ? `
+              <div class="mt-4 pt-3 border-t border-neutral-800 text-[11px] text-amber-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Cake Available on Order &bull; Pastry Available on Order</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      menuGrid.innerHTML = html;
+
+      if (totalItemsMatched === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+
+    // Quantity Handlers
+    function updateQuantity(itemId, delta) {
+      const current = cart[itemId] || 0;
+      const next = current + delta;
+      
+      if (next <= 0) {
+        delete cart[itemId];
+      } else {
+        cart[itemId] = next;
+      }
+
+      // Find item name for toast if added
+      if (delta > 0) {
+        const item = findItemById(itemId);
+        if (item) showToast(`Added 1x ${item.name}`);
+      }
+
+      syncCartState();
+      renderMenu();
+      if (!cartModal.classList.contains('pointer-events-none')) {
+        renderCartModal();
+      }
+    }
+
+    function findItemById(itemId) {
+      for (const cat of menuData) {
+        const found = cat.items.find(i => i.id === itemId);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    // Sync Cart UI Bar and totals
+    function syncCartState() {
+      let totalCount = 0;
+      let totalPrice = 0;
+
+      for (const [id, qty] of Object.entries(cart)) {
+        const item = findItemById(id);
+        if (item) {
+          totalCount += qty;
+          totalPrice += item.price * qty;
+        }
+      }
+
+      cartCountBadge.innerText = totalCount;
+      cartTotalPrice.innerText = totalPrice;
+      modalTotal.innerText = totalPrice;
+
+      if (totalCount > 0) {
+        cartBar.classList.remove('translate-y-32');
+      } else {
+        cartBar.classList.add('translate-y-32');
+        toggleCartModal(false);
+      }
+    }
+
+    // Cart Modal View
+    function toggleCartModal(open) {
+      if (open) {
+        renderCartModal();
+        cartModal.classList.remove('pointer-events-none');
+        cartModal.classList.remove('opacity-0');
+        document.body.style.overflow = 'hidden';
+      } else {
+        cartModal.classList.add('pointer-events-none');
+        cartModal.classList.add('opacity-0');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function renderCartModal() {
+      const entries = Object.entries(cart);
+      if (entries.length === 0) {
+        cartItemList.innerHTML = `
+          <div class="text-center py-10 text-zinc-500">
+            <i class="fa-solid fa-basket-shopping text-3xl mb-2"></i>
+            <p>Your food tray is empty</p>
+          </div>
+        `;
+        return;
+      }
+
+      cartItemList.innerHTML = entries.map(([id, qty]) => {
+        const item = findItemById(id);
+        if (!item) return '';
+        const itemTotal = item.price * qty;
+        return `
+          <div class="flex items-center justify-between bg-neutral-850 bg-neutral-950/70 p-3 rounded-xl border border-neutral-800">
+            <div class="flex-1">
+              <h4 class="font-bold text-sm text-zinc-100">${item.name}</h4>
+              <span class="text-xs text-brand-yellow">₹${item.price} each</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <!-- Counter -->
+              <div class="flex items-center bg-neutral-800 border border-neutral-700 text-white rounded-lg">
+                <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center hover:bg-neutral-700 text-xs">-</button>
+                <span class="w-6 text-center text-xs font-bold">${qty}</span>
+                <button onclick="updateQuantity('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center hover:bg-neutral-700 text-xs">+</button>
+              </div>
+              <span class="font-bold text-sm text-white w-12 text-right">₹${itemTotal}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function clearTray() {
+      cart = {};
+      syncCartState();
+      renderMenu();
+      toggleCartModal(false);
+      showToast("Tray cleared");
+    }
+
+    // Direct WhatsApp Ordering Integration
+    function sendOrderViaWhatsApp() {
+      const entries = Object.entries(cart);
+      if (entries.length === 0) return;
+
+      let total = 0;
+      let orderLines = [];
+
+      entries.forEach(([id, qty]) => {
+        const item = findItemById(id);
+        if (item) {
+          const subtotal = item.price * qty;
+          total += subtotal;
+          orderLines.push(`• ${qty}x ${item.name} (₹${subtotal})`);
+        }
+      });
+
+      const message = `Hello Food Factory! 🍔%0A%0AI would like to place an order:%0A${orderLines.join('%0A')}%0A%0A*Total Amount: ₹${total}*%0A(Please confirm delivery / prep time). Thank you!`;
+      const phoneNumber = "918005570014";
+      const url = `https://wa.me/${phoneNumber}?text=${message}`;
+
+      window.open(url, '_blank');
+    }
+
+    // Toast message banner
+    let toastTimeout;
+    function showToast(text) {
+      clearTimeout(toastTimeout);
+      toastMsg.innerText = text;
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+      }, 2000);
+    }
+
+    // Event Listeners
+    function attachEvents() {
+      // Search input handler
+      searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value.trim();
+        if (searchTerm.length > 0) {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        renderMenu();
+      });
+
+      // Clear search
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchTerm = '';
+        clearSearchBtn.classList.add('hidden');
+        renderMenu();
+      });
+
+      // Close modal on backdrop click
+      cartModal.addEventListener('click', (e) => {
+        if (e.target === cartModal) {
+          toggleCartModal(false);
+        }
+      });
+    }
+
+    // Start on load
+    window.onload = init;
+  </script>
+</body>
+</html>
+```
